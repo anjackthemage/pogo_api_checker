@@ -23,6 +23,7 @@ if __name__ == "__main__":
     
     start_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     
+    #Log name will reflect time/date script was initiated
     logging.basicConfig(filename="pac_scheduler_{}.log".format(start_time), level=logging.WARNING)
     
     #This represents the local version of the API
@@ -43,7 +44,6 @@ if __name__ == "__main__":
         else:
             usage()
     try:
-        #import bob
         #Loop forever
         while(True):
             cur_time = datetime.datetime.now()
@@ -58,7 +58,7 @@ if __name__ == "__main__":
             #Do nothing until the next interval
             time.sleep(interval - time.time() % interval)
     except KeyboardInterrupt:
-        #Someone pressed ctrl-c, or something equally annoying.
+        #Someone pressed ctrl-c, or something equally annoying
         logging.error("{0}: Process execution interrupted by user (KeyboardInterrupt). Exiting.".format(formatted_cur_time))
         sys.exit(1)
     except ValueError as e:

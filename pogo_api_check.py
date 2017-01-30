@@ -5,14 +5,16 @@ import re
 import types
 
 
-#Return the current PoGo API version from Niantic website.
+#Return the current PoGo API version from Niantic website
 def get_current_version():
     uri = "https://pgorelease.nianticlabs.com/plfe/version"
     result = requests.get(uri)
     if result.status_code == 200:
+        #Remove formatting, just want the version number.
         parsed_result = re.findall('\d+\.\d+\.\d+', result.text)
+        #Apparently I don't trust regex as much as I should. #unbeliever
         if (type(parsed_result) == types.ListType and parsed_result != []):
-            return parsed_result #Remove formatting, just return the version number.
+            return parsed_result[0]
         else:
             raise ValueError("Received bad text from {0}: {1}\nParsed as: {2}".format(uri, result, parsed_result))
     else:
@@ -21,8 +23,8 @@ def get_current_version():
 #Kill all instances of python.exe (including this one)
 def kill_python():
     result = os.system('taskkill /IM python.exe /f')
-    #Below code is primarily for debugging.
-    #If we get to this point, there was a problem.
+    #Below code is primarily for debugging
+    #If we get to this point, there was a problem
     print result
     
 def usage():
